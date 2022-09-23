@@ -68,28 +68,29 @@ const reportTestDone = function (name, testRunInfo, meta) {
 
   this.setIndent(1).useWordWrap(true).write(title);
 
+  this.setIndent(2).useWordWrap(true).newline();
+  meta.steps.forEach((step, index) => {
+    let color;
+    let symbol;
+    if (index < meta.failIndex) {
+      color = 'green';
+      symbol = this.symbols.ok;
+    } else if (index === meta.failIndex) {
+      color = 'red';
+      symbol = this.symbols.err;
+    } else {
+      color = 'grey';
+      symbol = '-';
+    }
+    this.write(this.chalk[color](symbol));
+    if (step.prefix) {
+      this.write(this.chalk.white(`${step.prefix}:`));
+    }
+    this.write(this.chalk[color](`${step.keyword}${step.text}`));
+    this.newline();
+  });
+
   if (hasErr) {
-    this.setIndent(2).useWordWrap(true).newline();
-    meta.steps.forEach((step, index) => {
-      let color;
-      let symbol;
-      if (index < meta.failIndex) {
-        color = 'green';
-        symbol = this.symbols.ok;
-      } else if (index === meta.failIndex) {
-        color = 'red';
-        symbol = this.symbols.err;
-      } else {
-        color = 'grey';
-        symbol = '-';
-      }
-      this.write(this.chalk[color](symbol));
-      if (step.prefix) {
-        this.write(this.chalk.white(`${step.prefix}:`));
-      }
-      this.write(this.chalk[color](`${step.keyword}${step.text}`));
-      this.newline();
-    });
     this._renderErrors(testRunInfo.errs);
   }
 
