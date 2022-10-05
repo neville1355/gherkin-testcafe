@@ -2,7 +2,7 @@ const _renderErrors = function (errs) {
   this.setIndent(3).newline();
 
   errs.forEach((err, idx) => {
-    const prefix = this.chalk.red(`${idx + 1}) `);
+    const prefix = `${idx + 1}) `;
 
     this.newline().write(this.formatError(err, prefix)).newline().newline();
   });
@@ -11,11 +11,11 @@ const _renderErrors = function (errs) {
 const _renderWarnings = function (warnings) {
   this.newline()
     .setIndent(1)
-    .write(this.chalk.bold.yellow(`Warnings (${warnings.length}):`))
+    .write(`Warnings (${warnings.length}):`)
     .newline();
 
   warnings.forEach((msg) => {
-    this.setIndent(1).write(this.chalk.bold.yellow(`--`)).newline().setIndent(2).write(msg).newline();
+    this.setIndent(1).write(`--`).newline().setIndent(2).write(msg).newline();
   });
 };
 
@@ -23,10 +23,10 @@ const reportTaskStart = function (startTime, userAgents, testCount) {
   this.startTime = startTime;
   this.testCount = testCount;
 
-  this.setIndent(1).useWordWrap(true).write(this.chalk.bold('Running tests in:')).newline();
+  this.setIndent(1).useWordWrap(true).write('Running tests in:').newline();
 
   userAgents.forEach((ua) => {
-    this.write(`- ${this.chalk.blue(ua)}`).newline();
+    this.write(`- ${ua}`).newline();
   });
 
   this.newline();
@@ -44,49 +44,42 @@ const reportTestDone = function (name, testRunInfo, meta) {
   if (testRunInfo.skipped) {
     this.skipped++;
 
-    symbol = this.chalk.cyan('-');
-    nameStyle = this.chalk.cyan;
+    symbol = '-';
   } else if (hasErr) {
-    symbol = this.chalk.red.bold(this.symbols.err);
-    nameStyle = this.chalk.red.bold;
+    symbol = this.symbols.err;
   } else {
-    symbol = this.chalk.green(this.symbols.ok);
-    nameStyle = this.chalk.grey;
+    symbol = this.symbols.ok;
   }
 
   name = `${this.currentFixtureName} - ${name}`;
 
-  let title = `${symbol} ${nameStyle(name)}`;
+  let title = `${symbol} ${name}`;
 
   if (testRunInfo.unstable) {
-    title = title.concat(this.chalk.yellow(' (unstable)'));
+    title = title.concat(' (unstable)');
   }
 
   if (testRunInfo.screenshotPath) {
-    title = title.concat(` (screenshots: ${this.chalk.grey.underline(testRunInfo.screenshotPath)})`);
+    title = title.concat(` (screenshots: ${testRunInfo.screenshotPath})`);
   }
 
   this.setIndent(1).useWordWrap(true).write(title);
 
   this.setIndent(2).useWordWrap(true).newline();
   meta.steps.forEach((step, index) => {
-    let color;
     let symbol;
     if (index < meta.failIndex) {
-      color = 'green';
       symbol = this.symbols.ok;
     } else if (index === meta.failIndex) {
-      color = 'red';
       symbol = this.symbols.err;
     } else {
-      color = 'grey';
       symbol = '-';
     }
-    this.write(this.chalk[color](symbol));
+    this.write(symbol);
     if (step.prefix) {
-      this.write(this.chalk.white(`${step.prefix}:`));
+      this.write(`${step.prefix}:`);
     }
-    this.write(this.chalk[color](`${step.keyword}${step.text}`));
+    this.write(`${step.keyword}${step.text}`);
     this.newline();
   });
 
@@ -104,10 +97,10 @@ const reportTaskDone = function (endTime, passed, warnings) {
   const durationStr = this.moment.duration(durationMs).format('h[h] mm[m] ss[s]');
   let footer =
     passed === this.testCount
-      ? this.chalk.bold.green(`${this.testCount} passed`)
-      : this.chalk.bold.red(`${this.testCount - passed}/${this.testCount} failed`);
+      ? `${this.testCount} passed`
+      : `${this.testCount - passed}/${this.testCount} failed`;
 
-  footer += this.chalk.gray(` (${durationStr})`);
+  footer += ` (${durationStr})`;
 
   this.setIndent(1).useWordWrap(true);
 
@@ -116,7 +109,7 @@ const reportTaskDone = function (endTime, passed, warnings) {
   this.newline().write(footer).newline();
 
   if (this.skipped > 0) {
-    this.write(this.chalk.cyan(`${this.skipped} skipped`)).newline();
+    this.write(`${this.skipped} skipped`).newline();
   }
 
   if (warnings.length) this._renderWarnings(warnings);
