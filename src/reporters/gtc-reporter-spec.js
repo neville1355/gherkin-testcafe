@@ -69,9 +69,8 @@ const reportTestDone = function (name, testRunInfo, meta) {
 
   this.setIndent(2).useWordWrap(true);
   meta.steps.forEach((step, index) => {
-    let color;
     let symbol;
-    if (index < meta.failIndex) {
+    if (meta.failIndex < 0 || index < meta.failIndex) {
       symbol = this.symbols.ok;
     } else if (index === meta.failIndex) {
       symbol = this.symbols.err;
