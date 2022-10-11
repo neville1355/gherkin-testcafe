@@ -78,7 +78,7 @@ const reportTestDone = function (name, testRunInfo, meta) {
     }
 
     const prefix = step.prefix ? `${step.prefix}:` : '';
-    this.write(`${symbol}${prefix} ${step.keyword}${step.text}\n`);
+    this.write(`${symbol} ${prefix} ${step.keyword}${step.text}\n`);
   });
 
   if (hasErr) {
