@@ -82,7 +82,6 @@ const reportTestDone = function (name, testRunInfo, meta) {
       this.write(`${step.prefix}:`);
     }
     this.write(`${step.keyword}${step.text}`);
-    this.newline();
   });
 
   if (hasErr) {
