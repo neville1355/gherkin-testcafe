@@ -1,20 +1,18 @@
 const _renderWarnings = function (warnings) {
-  this.newline()
-    .setIndent(1)
-    .write(`Warnings (${warnings.length}):`)
-    .newline();
+  this.setIndent(1)
+    .write(`\nWarnings (${warnings.length}):\n`);
 
   warnings.forEach((msg) => {
-    this.setIndent(1).write(`--`).newline().setIndent(2).write(msg).newline();
+    this.setIndent(1).write(`-- \n ${msg} \n`);
   });
 };
 
 const _renderErrors = function (errs) {
-  this.setIndent(3).newline();
+  this.setIndent(3).write('\n');
 
   errs.forEach((err, idx) => {
     const prefix = `${idx + 1}) `;
-    this.newline().write(this.formatError(err, prefix)).newline().newline();
+    this.write(`\n${this.formatError(err, prefix)}\n\n`);
   });
 };
 
@@ -22,10 +20,10 @@ const reportTaskStart = function (startTime, userAgents, testCount) {
   this.startTime = startTime;
   this.testCount = testCount;
 
-  this.setIndent(1).useWordWrap(false).write('Running tests in:').newline();
+  this.setIndent(1).useWordWrap(false).write('Running tests in:\n');
 
   userAgents.forEach((ua) => {
-    this.write(`- ${ua}`).newline();
+    this.write(`- ${ua}\n`);
   });
 };
 
@@ -35,10 +33,10 @@ const reportFixtureStart = function (name) {
   if (this.afterErrorList) {
     this.afterErrorList = false;
   } else {
-    this.newline();
+    this.write("\n");
   }
 
-  this.write(name).newline();
+  this.write(`${name}\n`);
 };
 
 const reportTestDone = function (name, testRunInfo, meta) {
@@ -99,15 +97,15 @@ const reportTaskDone = function (endTime, passed, warnings) {
   footer = footer.concat(` (${durationStr})`);
 
   if (!this.afterErrorList) {
-    this.newline();
+    this.write('\n');
   }
 
   this.setIndent(1).useWordWrap(false);
 
-  this.newline().write(footer).newline();
+  this.write(`\n${footer}\n`);
 
   if (this.skipped > 0) {
-    this.write(`${this.skipped} skipped`).newline();
+    this.write(`${this.skipped} skipped\n`);
   }
 
   if (warnings.length) {
