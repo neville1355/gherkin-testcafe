@@ -6,7 +6,7 @@ const _renderErrors = function () {
   this.errDescriptors.forEach((errDescriptor) => {
     const title = `${this.chalk.bold.red(this.symbols.err)} ${errDescriptor.fixtureName} - ${errDescriptor.testName}`;
 
-    this.setIndent(1).useWordWrap(true).newline().write(title);
+    this.setIndent(1).useWordWrap(false).newline().write(title);
 
     this.setIndent(2);
     errDescriptor.steps.forEach((step) => this.newline().write(step));
@@ -29,7 +29,7 @@ const _renderWarnings = function (warnings) {
 const reportTaskStart = function (_, userAgents, testCount) {
   this.testCount = testCount;
 
-  this.setIndent(1).useWordWrap(true).write(this.chalk.bold('Running tests in:')).newline();
+  this.setIndent(1).useWordWrap(false).write(this.chalk.bold('Running tests in:')).newline();
 
   userAgents.forEach((ua) => {
     this.write(`- ${this.chalk.blue(ua)}`).newline();
@@ -62,7 +62,7 @@ const reportTestDone = function (name, testRunInfo, meta) {
 
   this.write(symbol);
 
-  this.setIndent(2).useWordWrap(true);
+  this.setIndent(2).useWordWrap(false);
   const formattedSteps = meta.steps.map((step, index) => {
     let symbol;
     let color;

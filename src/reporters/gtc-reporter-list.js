@@ -23,7 +23,7 @@ const reportTaskStart = function (startTime, userAgents, testCount) {
   this.startTime = startTime;
   this.testCount = testCount;
 
-  this.setIndent(1).useWordWrap(true).write('Running tests in:').newline();
+  this.setIndent(1).useWordWrap(false).write('Running tests in:').newline();
 
   userAgents.forEach((ua) => {
     this.write(`- ${ua}`).newline();
@@ -63,9 +63,9 @@ const reportTestDone = function (name, testRunInfo, meta) {
     title = title.concat(` (screenshots: ${testRunInfo.screenshotPath})`);
   }
 
-  this.setIndent(1).useWordWrap(true).write(title);
+  this.setIndent(1).useWordWrap(false).write(title);
 
-  this.setIndent(2).useWordWrap(true).newline();
+  this.setIndent(2).useWordWrap(false).newline();
   meta.steps.forEach((step, index) => {
     let symbol;
     if (index < meta.failIndex) {
@@ -102,7 +102,7 @@ const reportTaskDone = function (endTime, passed, warnings) {
 
   footer += ` (${durationStr})`;
 
-  this.setIndent(1).useWordWrap(true);
+  this.setIndent(1).useWordWrap(false);
 
   if (!this.afterErrList) this.newline();
 
