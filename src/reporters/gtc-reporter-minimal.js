@@ -124,7 +124,7 @@ const reportTaskDone = function (_, passed, warnings) {
 
 module.exports = () => {
   return {
-    noColors: false,
+    noColors: true,
     spaceLeft: 0,
     errDescriptors: [],
     currentFixtureName: null,

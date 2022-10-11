@@ -117,7 +117,7 @@ const reportTaskDone = function (endTime, passed, warnings) {
 
 module.exports = () => {
   return {
-    noColors: false,
+    noColors: true,
     startTime: null,
     afterErrList: false,
     currentFixtureName: null,
