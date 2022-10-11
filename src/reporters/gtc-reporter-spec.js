@@ -65,7 +65,6 @@ const reportTestDone = function (name, testRunInfo, meta) {
   if (testRunInfo.screenshotPath) title += ` (screenshots: ${testRunInfo.screenshotPath})`;
 
   this.write(title);
-  this.newline();
 
   this.setIndent(2).useWordWrap(false);
   meta.steps.forEach((step, index) => {
@@ -77,11 +76,8 @@ const reportTestDone = function (name, testRunInfo, meta) {
     } else {
       symbol = '-';
     }
-    this.write(symbol);
-    if (step.prefix) {
-      this.write(`${step.prefix}:`);
-    }
-    this.write(`${step.keyword}${step.text}`);
+
+    this.write(`${symbol}${step.prefix || ''}: ${step.keyword}${step.text}`);
   });
 
   if (hasErr) {
